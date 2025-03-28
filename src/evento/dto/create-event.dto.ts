@@ -1,7 +1,7 @@
 import { IsString, IsOptional, IsDate, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class CreateEventoDto {
+export class CreateEventDto {
   @IsString()
   @IsNotEmpty({ message: 'El título es obligatorio' })
   title: string;

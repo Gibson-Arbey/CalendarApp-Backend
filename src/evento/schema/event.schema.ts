@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
-export class Evento extends Document {
+export class Event extends Document {
   @Prop({ required: true, trim: true })
   title: string;
 
@@ -14,11 +14,11 @@ export class Evento extends Document {
 
   @Prop({
     required: true,
-    validate: function (this: Evento, value: Date) {
+    validate: function (this: Event, value: Date) {
       return value > this.start;
     },
   })
   end: Date;
 }
 
-export const EventoSchema = SchemaFactory.createForClass(Evento);
+export const EventSchema = SchemaFactory.createForClass(Event);

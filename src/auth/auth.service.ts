@@ -13,6 +13,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { mapUserSchemaToDto } from './helpers/schema-to-dto.helper';
 
 @Injectable()
 export class AuthService {
@@ -33,7 +34,7 @@ export class AuthService {
 
       await user.save();
 
-      return { user: this.mapUserToReturn(user), token: this.createJwtToken({ id: user.id }) };
+      return { user: mapUserSchemaToDto(user), token: this.createJwtToken({ id: user.id }) };
     } catch (error) {
       this.handleDBExceptions(error);
     }
@@ -53,7 +54,7 @@ export class AuthService {
       throw new UnauthorizedException('El correo o contraseña son incorrectos');
     }
 
-    return { user: this.mapUserToReturn(user), token: this.createJwtToken({ id: user.id }) };
+    return { user: mapUserSchemaToDto(user), token: this.createJwtToken({ id: user.id }) };
   }
 
   async checkAuthStatus(user: User) {
@@ -82,12 +83,5 @@ export class AuthService {
     throw new InternalServerErrorException('Ocurrio un error inesperado');
   }
 
-  private mapUserToReturn(user: User) {
-    const userObj = user.toObject();
-    return {
-      id: userObj._id,
-      name: userObj.name,
-      email: userObj.email,
-    };
-  }
+  
 }
